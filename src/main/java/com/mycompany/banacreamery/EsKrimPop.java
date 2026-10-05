@@ -2,44 +2,29 @@ package com.mycompany.banacreamery;
 
 public class EsKrimPop extends ProdukEsKrim {
     private String jenisStik;
-    private boolean adaCoatingCokelat;
+    private boolean adaLapisanCokelat;
 
-    public EsKrimPop(String kodeProduk, String namaVarian, double hargaDasar, int stok, String jenisStik, boolean adaCoatingCokelat) {
+    public EsKrimPop(String kodeProduk, String namaVarian, double hargaDasar, int stok, 
+                     String jenisStik, boolean adaLapisanCokelat) {
         super(kodeProduk, namaVarian, hargaDasar, stok);
         this.jenisStik = jenisStik;
-        this.adaCoatingCokelat = adaCoatingCokelat;
-    }
-
-    public String getJenisStik() {
-        return jenisStik;
-    }
-
-    public void setJenisStik(String jenisStik) {
-        this.jenisStik = jenisStik;
-    }
-
-    public boolean isAdaCoatingCokelat() {
-        return adaCoatingCokelat;
-    }
-
-    public void setAdaCoatingCokelat(boolean adaCoatingCokelat) {
-        this.adaCoatingCokelat = adaCoatingCokelat;
+        this.adaLapisanCokelat = adaLapisanCokelat;
     }
 
     @Override
     public double hitungHargaJual() {
-        double hargaFinal = super.getHargaDasar();
-        if (adaCoatingCokelat) {
-            hargaFinal += 3000;
-        }
-        return hargaFinal;
+        return getHargaDasar() + (adaLapisanCokelat ? 2500 : 0);
     }
 
     @Override
     public void tampilkanInfo() {
-        super.tampilkanInfo();
-        String coatingStr = adaCoatingCokelat ? "Coating Cokelat" : "Tanpa Coating";
-        System.out.printf("| Es Krim Popsicle| Stik: %-10s (%s)%n", 
-                this.jenisStik, coatingStr);
+        System.out.printf("| %-7s | %-20s | Rp%-10.2f | %-4d | %-15s | Stik: %-7s (Dip: %-3s) |%n",
+                getKodeProduk(), getNamaVarian(), hitungHargaJual(), getStok(), 
+                "Es Krim Pop", jenisStik, (adaLapisanCokelat ? "Ya" : "Tidak"));
+    }
+
+    @Override
+    public void caraPenyajian() {
+        System.out.println("-> Penyajian Es Krim Pop: Disajikan beku padat bersama stik " + jenisStik + ".");
     }
 }
