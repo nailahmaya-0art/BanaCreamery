@@ -56,6 +56,20 @@ public class BanaCreamery {
         }
     }
 
+    public static void simulasiTransaksi(ProdukEsKrim item, int porsi) {
+        System.out.println("\n" + "=".repeat(100));
+        System.out.println(centerText("SIMULASI TRANSAKSI BANA CREAMERY", 100));
+        System.out.println("=".repeat(100));
+        System.out.println(" Varian Dipilih : " + item.getNamaVarian() + " [" + item.getKodeProduk() + "]");
+        
+        item.caraPenyajian(); 
+        
+        double total = item.hitungHargaJual() * porsi;
+        System.out.printf(" Jumlah Porsi   : %d porsi%n", porsi);
+        System.out.printf(" Total Harga    : Rp%.2f%n", total);
+        System.out.println("=".repeat(100));
+    }
+    
     private static void cetakHeaderTabel() {
         System.out.println("=".repeat(120));
         System.out.printf("| %-3s | %-7s | %-20s | %-13s | %-4s | %-15s | %-25s |%n", 
@@ -71,10 +85,11 @@ public class BanaCreamery {
         inventory[jumlahProduk++] = new Gelato("GEL01", "Pistachio Crunch", 30000, 15, 4.2, "Milk-Based");
         inventory[jumlahProduk++] = new Gelato("GEL02", "Mango Sorbetto", 25000, 20, 0.0, "Water-Based");
         inventory[jumlahProduk++] = new EsKrimPop("POP01", "Berry Blast Pop", 15000, 30, "Kayu Pinus", true);
-        inventory[jumlahProduk++] = new EsKrimPop("POP02", "Matcha Dip", 18000, 12, "Bambu Edible", false);
-
+        inventory[jumlahProduk++] = new EsKrimPop("POP02", "Matcha Dip", 110000, 12, "Bambu Edible", false);
+        inventory[jumlahProduk++] = new Sundae("SUN01", "Choco Lava Delight", 22000, 10, "Oreo & Fudge", 2);
+        
         boolean isRunning = true;
-        int menuWidth = 66;
+        int menuWidth = 100;
 
         while (isRunning) {
             System.out.println("\n" + "=".repeat(menuWidth));
@@ -84,10 +99,11 @@ public class BanaCreamery {
             System.out.println(" 1. Tambah Data Produk Baru");
             System.out.println(" 2. Tampilkan Seluruh Produk");
             System.out.println(" 3. Cari Produk");
-            System.out.println(" 4. Lihat Total Objek Dibuat");
-            System.out.println(" 5. Keluar dari Sistem");
+            System.out.println(" 4. Simulasi Transaksi (Polymorphism)");
+            System.out.println(" 5. Lihat Total Objek Dibuat");
+            System.out.println(" 6. Keluar dari Sistem");
             System.out.println("-".repeat(menuWidth));
-            System.out.print(" Pilihan Menu (1-5): ");
+            System.out.print(" Pilihan Menu (1-6): ");
 
             int menu = scanner.nextInt();
             scanner.nextLine();
@@ -103,7 +119,8 @@ public class BanaCreamery {
                     System.out.println("Pilih Jenis Produk:");
                     System.out.println("1. Gelato (Artisan)");
                     System.out.println("2. Es Krim Pop (Popsicle)");
-                    System.out.print("Pilihan Subclass (1/2): ");
+                    System.out.println("3. Sundae (Deluxe)");
+                    System.out.print("Pilihan Subclass (1-3): ");
                     int tipe = scanner.nextInt();
                     scanner.nextLine();
 
@@ -136,6 +153,16 @@ public class BanaCreamery {
 
                         inventory[jumlahProduk++] = new EsKrimPop(kode, nama, harga, stok, stik, coating);
                         System.out.println("\n   [✓] Es Krim Pop baru berhasil ditambahkan!");
+
+                    } else if (tipe == 3) {
+                        System.out.print("Masukkan Jenis Topping: ");
+                        String topping = scanner.nextLine();
+                        System.out.print("Masukkan Jumlah Scoop: ");
+                        int scoop = scanner.nextInt();
+                        scanner.nextLine();
+
+                        inventory[jumlahProduk++] = new Sundae(kode, nama, harga, stok, topping, scoop);
+                        System.out.println("\n   [✓] Sundae baru berhasil ditambahkan!");
 
                     } else {
                         System.out.println("   [!] Pilihan jenis produk tidak valid.");
@@ -189,12 +216,35 @@ public class BanaCreamery {
                     break;
 
                 case 4:
+                    if (jumlahProduk == 0) {
+                        System.out.println("   [!] Inventory masih kosong.");
+                        break;
+                    }
+
+                    System.out.println("\n--- SIMULASI TRANSAKSI PRODUK ---");
+                    for (int i = 0; i < jumlahProduk; i++) {
+                        System.out.printf(" %d. %-20s [%s]%n", (i + 1), inventory[i].getNamaVarian(), inventory[i].getKodeProduk());
+                    }
+                    System.out.print("Pilih Nomor Produk (1-" + jumlahProduk + "): ");
+                    int pilihanProduk = scanner.nextInt();
+                    System.out.print("Masukkan Jumlah Porsi: ");
+                    int porsi = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (pilihanProduk > 0 && pilihanProduk <= jumlahProduk) {
+                        simulasiTransaksi(inventory[pilihanProduk - 1], porsi);
+                    } else {
+                        System.out.println("   [!] Nomor produk tidak valid.");
+                    }
+                    break;
+
+                case 5:
                     System.out.println("\n--- INFORMASI STATISTIK DIBUAT ---");
                     System.out.println(" Total Produk Terdaftar Saat Ini : " + jumlahProduk);
                     System.out.println(" Total Objek Berhasil Dibuat     : " + ProdukEsKrim.totalProdukBerhasilDibuat + " instansiasi.");
                     break;
 
-                case 5:
+                case 6:
                     isRunning = false;
                     System.out.println("\n" + "=".repeat(menuWidth));
                     System.out.println(centerText("Terima kasih telah menggunakan sistem toko BanaCreamery!", menuWidth));
