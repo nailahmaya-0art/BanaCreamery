@@ -16,52 +16,29 @@ public class ProdukEsKrim {
         totalProdukBerhasilDibuat++;
     }
 
-    public String getKodeProduk() {
-        return kodeProduk;
-    }
-
-    public void setKodeProduk(String kodeProduk) {
-        this.kodeProduk = kodeProduk;
-    }
-
-    public String getNamaVarian() {
-        return namaVarian;
-    }
-
-    public void setNamaVarian(String namaVarian) {
-        this.namaVarian = namaVarian;
-    }
-
-    public double getHargaDasar() {
-        return hargaDasar;
-    }
+    public String getKodeProduk() { return kodeProduk; }
+    public String getNamaVarian() { return namaVarian; }
+    public double getHargaDasar() { return hargaDasar; }
+    public int getStok() { return stok; }
 
     public void setHargaDasar(double hargaDasar) {
-        if (hargaDasar < 0) {
-            this.hargaDasar = 0;
-        } else {
-            this.hargaDasar = hargaDasar;
-        }
-    }
-
-    public int getStok() {
-        return stok;
+        this.hargaDasar = (hargaDasar < 0) ? 0 : hargaDasar;
     }
 
     public void setStok(int stok) {
-        if (stok < 0) {
-            this.stok = 0;
-        } else {
-            this.stok = stok;
-        }
+        this.stok = (stok < 0) ? 0 : stok;
     }
 
     public double hitungHargaJual() {
-        return this.hargaDasar;
+        return hargaDasar;
     }
 
     public void tampilkanInfo() {
-        System.out.printf("| %-7s | %-20s | Rp%-11.2f | %-4d ", 
-                this.kodeProduk, this.namaVarian, hitungHargaJual(), this.stok);
+        System.out.printf("[%s] %-18s | Harga Dasar: Rp%-8.0f | Stok: %-3d ", 
+                kodeProduk, namaVarian, hargaDasar, stok);
+    }
+
+    public void caraPenyajian() {
+        System.out.println("-> Cara Penyajian: Disajikan dalam wadah standar.");
     }
 }
