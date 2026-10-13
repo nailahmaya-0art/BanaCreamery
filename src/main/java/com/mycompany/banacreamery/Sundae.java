@@ -1,6 +1,6 @@
 package com.mycompany.banacreamery;
 
-public class Sundae extends ProdukEsKrim {
+public class Sundae extends ProdukEsKrim implements DapatDinilai {
     private String jenisTopping;
     private int jumlahScoop;
 
@@ -21,13 +21,24 @@ public class Sundae extends ProdukEsKrim {
 
     @Override
     public void tampilkanInfo() {
-        System.out.printf("| %-7s | %-20s | Rp%-10.2f | %-4d | %-15s | Topping: %-10s (%d Scoop) |%n",
+        String spec = String.format("Topping: %s (%d Scoop)", jenisTopping, jumlahScoop);
+        System.out.printf("| %-6s | %-18s | Rp%-9.2f | %-4d | %-14s | %-38s |%n",
                 getKodeProduk(), getNamaVarian(), hitungHargaJual(), getStok(), 
-                "Sundae", jenisTopping, jumlahScoop);
+                "Sundae", spec);
     }
 
     @Override
     public void caraPenyajian() {
         System.out.println("-> Penyajian Sundae: Disajikan dalam gelas tinggi dengan limpahan topping " + jenisTopping + ".");
+    }
+
+    @Override
+    public void hitungDiskonKadaluarsa() {
+        System.out.println("   [Aturan Diskon] Potongan Rp 5.000 untuk pembelian jam terakhir operasional toko.");
+    }
+
+    @Override
+    public void beriRating(int bintang) {
+        System.out.println("   [Ulasan Pelanggan] Ulasan Sundae dicatat dengan rating " + bintang + "/5 bintang.");
     }
 }
