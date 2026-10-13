@@ -72,7 +72,7 @@ public class BanaCreamery {
     
     private static void cetakHeaderTabel() {
         System.out.println("=".repeat(120));
-        System.out.printf("| %-3s | %-7s | %-20s | %-13s | %-4s | %-15s | %-25s |%n", 
+        System.out.printf("| %-3s | %-6s | %-18s | %-11s | %-4s | %-14s | %-38s |%n", 
                 "No", "Kode", "Nama Varian", "Harga Jual", "Stok", "Kategori", "Spesifikasi Tambahan");
         System.out.println("=".repeat(120));
     }
@@ -85,7 +85,7 @@ public class BanaCreamery {
         inventory[jumlahProduk++] = new Gelato("GEL01", "Pistachio Crunch", 30000, 15, 4.2, "Milk-Based");
         inventory[jumlahProduk++] = new Gelato("GEL02", "Mango Sorbetto", 25000, 20, 0.0, "Water-Based");
         inventory[jumlahProduk++] = new EsKrimPop("POP01", "Berry Blast Pop", 15000, 30, "Kayu Pinus", true);
-        inventory[jumlahProduk++] = new EsKrimPop("POP02", "Matcha Dip", 110000, 12, "Bambu Edible", false);
+        inventory[jumlahProduk++] = new EsKrimPop("POP02", "Matcha Dip", 18000, 12, "Bambu Edible", false);
         inventory[jumlahProduk++] = new Sundae("SUN01", "Choco Lava Delight", 22000, 10, "Oreo & Fudge", 2);
         
         boolean isRunning = true;
@@ -99,7 +99,7 @@ public class BanaCreamery {
             System.out.println(" 1. Tambah Data Produk Baru");
             System.out.println(" 2. Tampilkan Seluruh Produk");
             System.out.println(" 3. Cari Produk");
-            System.out.println(" 4. Simulasi Transaksi (Polymorphism)");
+            System.out.println(" 4. Simulasi Transaksi");
             System.out.println(" 5. Lihat Total Objek Dibuat");
             System.out.println(" 6. Keluar dari Sistem");
             System.out.println("-".repeat(menuWidth));
@@ -178,8 +178,20 @@ public class BanaCreamery {
                         for (int i = 0; i < jumlahProduk; i++) {
                             System.out.printf("| %-3d ", (i + 1));
                             inventory[i].tampilkanInfo();
+
+                            inventory[i].hitungDiskonKadaluarsa();
+
+                            if (inventory[i] instanceof DapatDipesan) {
+                                DapatDipesan itemBisaDipesan = (DapatDipesan) inventory[i];
+                                itemBisaDipesan.prosesPemesananKhusus();
+                            }
+
+                            if (inventory[i] instanceof DapatDinilai) {
+                                DapatDinilai itemBisaDinilai = (DapatDinilai) inventory[i];
+                                itemBisaDinilai.beriRating(5);
+                            }
+                            System.out.println("-".repeat(120));
                         }
-                        System.out.println("=".repeat(120));
                     }
                     break;
 
