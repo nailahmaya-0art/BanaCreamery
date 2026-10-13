@@ -1,6 +1,6 @@
 package com.mycompany.banacreamery;
 
-public class ProdukEsKrim {
+public abstract class ProdukEsKrim {
     private String kodeProduk;
     private String namaVarian;
     private double hargaDasar;
@@ -41,4 +41,6 @@ public class ProdukEsKrim {
     public void caraPenyajian() {
         System.out.println("-> Cara Penyajian: Disajikan dalam wadah standar.");
     }
+
+    public abstract void hitungDiskonKadaluarsa();
 }
