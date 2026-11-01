@@ -8,11 +8,17 @@ public abstract class ProdukEsKrim {
 
     public static int totalProdukBerhasilDibuat = 0;
 
-    public ProdukEsKrim(String kodeProduk, String namaVarian, double hargaDasar, int stok) {
+    public ProdukEsKrim(String kodeProduk, String namaVarian, double hargaDasar, int stok) throws Exception {
+        if (hargaDasar < 0) {
+            throw new Exception("Harga dasar tidak boleh bernilai negatif!");
+        }
+        if (stok < 0) {
+            throw new Exception("Jumlah stok tidak boleh bernilai negatif!");
+        }
         this.kodeProduk = kodeProduk;
         this.namaVarian = namaVarian;
-        setHargaDasar(hargaDasar);
-        setStok(stok);
+        this.hargaDasar = hargaDasar;
+        this.stok = stok;
         totalProdukBerhasilDibuat++;
     }
 
@@ -33,14 +39,10 @@ public abstract class ProdukEsKrim {
         return hargaDasar;
     }
 
-    public void tampilkanInfo() {
-        System.out.printf("[%s] %-18s | Harga Dasar: Rp%-8.0f | Stok: %-3d ", 
-                kodeProduk, namaVarian, hargaDasar, stok);
-    }
-
     public void caraPenyajian() {
         System.out.println("-> Cara Penyajian: Disajikan dalam wadah standar.");
     }
 
+    public abstract void tampilkanInfo();
     public abstract void hitungDiskonKadaluarsa();
 }
