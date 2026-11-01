@@ -5,8 +5,11 @@ public class Sundae extends ProdukEsKrim implements DapatDinilai {
     private int jumlahScoop;
 
     public Sundae(String kodeProduk, String namaVarian, double hargaDasar, int stok, 
-                  String jenisTopping, int jumlahScoop) {
+                  String jenisTopping, int jumlahScoop) throws Exception {
         super(kodeProduk, namaVarian, hargaDasar, stok);
+        if (jumlahScoop <= 0) {
+            throw new Exception("Jumlah scoop minimal harus 1!");
+        }
         this.jenisTopping = jenisTopping;
         this.jumlahScoop = jumlahScoop;
     }
