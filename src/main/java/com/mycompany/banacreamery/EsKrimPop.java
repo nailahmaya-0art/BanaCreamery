@@ -5,7 +5,7 @@ public class EsKrimPop extends ProdukEsKrim implements DapatDipesan {
     private boolean adaLapisanCokelat;
 
     public EsKrimPop(String kodeProduk, String namaVarian, double hargaDasar, int stok, 
-                     String jenisStik, boolean adaLapisanCokelat) {
+                     String jenisStik, boolean adaLapisanCokelat) throws Exception {
         super(kodeProduk, namaVarian, hargaDasar, stok);
         this.jenisStik = jenisStik;
         this.adaLapisanCokelat = adaLapisanCokelat;
