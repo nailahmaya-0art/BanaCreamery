@@ -5,8 +5,11 @@ public class Gelato extends ProdukEsKrim implements DapatDipesan, DapatDinilai {
     private String rasaBase;
 
     public Gelato(String kodeProduk, String namaVarian, double hargaDasar, int stok, 
-                  double persentaseLemakSusu, String rasaBase) {
+                  double persentaseLemakSusu, String rasaBase) throws Exception {
         super(kodeProduk, namaVarian, hargaDasar, stok);
+        if (persentaseLemakSusu < 0) {
+            throw new Exception("Persentase lemak susu tidak boleh negatif!");
+        }
         this.persentaseLemakSusu = persentaseLemakSusu;
         this.rasaBase = rasaBase;
     }
