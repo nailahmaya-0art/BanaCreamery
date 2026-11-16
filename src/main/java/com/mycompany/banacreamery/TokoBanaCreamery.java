@@ -1,7 +1,9 @@
 package com.mycompany.banacreamery;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class TokoBanaCreamery {
     private String namaToko;
@@ -80,6 +82,50 @@ public class TokoBanaCreamery {
         System.out.println("Total Member Terdaftar: " + dataMember.size());
         for (Member m : dataMember.values()) {
             System.out.println("- ID: " + m.getIdMember() + " | Nama: " + m.getNamaMember());
+        }
+    }
+
+    public void simpanDataKeFile() {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data_banacreamery.dat"))) {
+            out.writeObject(this.inventory);
+            out.writeObject(this.dataMember);
+            System.out.println("-> [SYSTEM LOG] Seluruh data berhasil disimpan (Serialization) ke dalam Harddisk!");
+        } catch (Exception e) {
+            System.out.println("-> [SYSTEM ERROR] Gagal menyimpan data: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void muatDataDariFile() {
+        File file = new File("data_banacreamery.dat");
+        if (!file.exists()) {
+            return;
+        }
+
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+            this.inventory = (ArrayList<ProdukEsKrim>) in.readObject();
+            this.dataMember = (HashMap<String, Member>) in.readObject();
+            ProdukEsKrim.totalProdukBerhasilDibuat = this.inventory.size();
+            System.out.println("-> [SYSTEM LOG] Data sistem berhasil dimuat ulang dari penyimpanan.");
+        } catch (Exception e) {
+            System.out.println("-> [SYSTEM ERROR] Gagal memuat data: " + e.getMessage());
+        }
+    }
+
+    public void bacaLogTransaksi() {
+        System.out.println("\nRIWAYAT LOG TRANSAKSI BANACREAMERY");
+        File fileLog = new File("log_transaksi.txt");
+        if (!fileLog.exists()) {
+            System.out.println("   Belum ada log transaksi tersimpan.");
+            return;
+        }
+
+        try (Scanner reader = new Scanner(fileLog)) {
+            while (reader.hasNextLine()) {
+                System.out.println(reader.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("   [!] Gagal membuka file log: " + e.getMessage());
         }
     }
 
