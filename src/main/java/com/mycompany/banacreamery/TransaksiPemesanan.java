@@ -1,5 +1,8 @@
 package com.mycompany.banacreamery;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class TransaksiPemesanan {
 
     private static String centerText(String text, int width) {
@@ -25,5 +28,15 @@ public class TransaksiPemesanan {
         System.out.printf(" Total Harga      : Rp%.2f%n", total);
         System.out.println(" Status Transaksi : BERHASIL DICATAT DI SISTEM");
         System.out.println("=".repeat(width));
+
+        try (FileWriter writer = new FileWriter("log_transaksi.txt", true)) {
+            String log = String.format("Member: %s [%s] | Produk: %s [%s] | Porsi: %d | Total: Rp%.2f%n",
+                    member.getNamaMember(), member.getIdMember(),
+                    produk.getNamaVarian(), produk.getKodeProduk(),
+                    porsi, total);
+            writer.write(log);
+        } catch (IOException e) {
+            System.out.println("   [!] Gagal menulis log transaksi: " + e.getMessage());
+        }
     }
 }
