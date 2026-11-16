@@ -1,6 +1,10 @@
 package com.mycompany.banacreamery;
 
-public class Member {
+import java.io.Serializable;
+
+public class Member implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String idMember;
     private String namaMember;
 
