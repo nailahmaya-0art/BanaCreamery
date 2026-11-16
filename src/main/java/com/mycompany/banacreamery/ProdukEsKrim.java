@@ -1,6 +1,10 @@
 package com.mycompany.banacreamery;
 
-public abstract class ProdukEsKrim {
+import java.io.Serializable;
+
+public abstract class ProdukEsKrim implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String kodeProduk;
     private String namaVarian;
     private double hargaDasar;
