@@ -19,17 +19,21 @@ public class BanaCreamery {
         TokoBanaCreamery tokoUtama = new TokoBanaCreamery("BanaCreamery");
         tokoUtama.bukaToko();
 
-        tokoUtama.tambahMember(new Member("MEM001", "Budi Santoso"));
-        tokoUtama.tambahMember(new Member("MEM002", "Siti Aminah"));
+        tokoUtama.muatDataDariFile();
 
-        try {
-            tokoUtama.tambahProduk(new Gelato("GEL01", "Pistachio Crunch", 30000, 15, 4.2, "Milk-Based"));
-            tokoUtama.tambahProduk(new Gelato("GEL02", "Mango Sorbetto", 25000, 20, 0.0, "Water-Based"));
-            tokoUtama.tambahProduk(new EsKrimPop("POP01", "Berry Blast Pop", 15000, 30, "Kayu Pinus", true));
-            tokoUtama.tambahProduk(new EsKrimPop("POP02", "Matcha Dip", 18000, 12, "Bambu Edible", false));
-            tokoUtama.tambahProduk(new Sundae("SUN01", "Choco Lava Delight", 22000, 10, "Oreo & Fudge", 2));
-        } catch (Exception e) {
-            System.out.println("   [!] Inisialisasi awal gagal: " + e.getMessage());
+        if (tokoUtama.getJumlahProduk() == 0) {
+            tokoUtama.tambahMember(new Member("MEM001", "Budi Santoso"));
+            tokoUtama.tambahMember(new Member("MEM002", "Siti Aminah"));
+
+            try {
+                tokoUtama.tambahProduk(new Gelato("GEL01", "Pistachio Crunch", 30000, 15, 4.2, "Milk-Based"));
+                tokoUtama.tambahProduk(new Gelato("GEL02", "Mango Sorbetto", 25000, 20, 0.0, "Water-Based"));
+                tokoUtama.tambahProduk(new EsKrimPop("POP01", "Berry Blast Pop", 15000, 30, "Kayu Pinus", true));
+                tokoUtama.tambahProduk(new EsKrimPop("POP02", "Matcha Dip", 18000, 12, "Bambu Edible", false));
+                tokoUtama.tambahProduk(new Sundae("SUN01", "Choco Lava Delight", 22000, 10, "Oreo & Fudge", 2));
+            } catch (Exception e) {
+                System.out.println("   [!] Inisialisasi awal gagal: " + e.getMessage());
+            }
         }
 
         boolean isRunning = true;
@@ -45,10 +49,11 @@ public class BanaCreamery {
             System.out.println(" 3. Cari Produk");
             System.out.println(" 4. Kelola Member Pelanggan");
             System.out.println(" 5. Transaksi Pemesanan Member");
-            System.out.println(" 6. Lihat Total Objek Dibuat");
-            System.out.println(" 7. Keluar dari Sistem");
+            System.out.println(" 6. Baca File Log Transaksi");
+            System.out.println(" 7. Lihat Total Objek Dibuat");
+            System.out.println(" 8. Simpan & Keluar dari Sistem");
             System.out.println("-".repeat(menuWidth));
-            System.out.print(" Pilihan Menu (1-7): ");
+            System.out.print(" Pilihan Menu (1-8): ");
 
             try {
                 int menu = scanner.nextInt();
@@ -146,7 +151,7 @@ public class BanaCreamery {
 
                     case 5:
                         System.out.println("\nTRANSAKSI PEMESANAN");
-                        System.out.print("Masukkan ID Member Peminjam/Pembeli: ");
+                        System.out.print("Masukkan ID Member Pembeli: ");
                         String idMember = scanner.nextLine();
                         
                         Member pemesan = tokoUtama.getMember(idMember);
@@ -172,12 +177,18 @@ public class BanaCreamery {
                         break;
 
                     case 6:
+                        tokoUtama.bacaLogTransaksi();
+                        break;
+
+                    case 7:
                         System.out.println("\nINFORMASI STATISTIK DIBUAT");
                         System.out.println(" Total Produk Terdaftar Saat Ini : " + tokoUtama.getJumlahProduk());
                         System.out.println(" Total Objek Berhasil Dibuat     : " + ProdukEsKrim.totalProdukBerhasilDibuat + " instansiasi.");
                         break;
 
-                    case 7:
+                    case 8:
+                        System.out.println("\nMenyimpan sesi ke database internal...");
+                        tokoUtama.simpanDataKeFile();
                         isRunning = false;
                         System.out.println("\n" + "=".repeat(menuWidth));
                         System.out.println(centerText("Terima kasih telah menggunakan sistem toko BanaCreamery!", menuWidth));
